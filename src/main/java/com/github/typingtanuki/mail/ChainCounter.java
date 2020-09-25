@@ -23,6 +23,9 @@ public class ChainCounter {
     }
 
     private static void count(Map<String, Long> counts, String s) {
+        if (!Edict.isInDict(s)) {
+            return;
+        }
         Long count = counts.getOrDefault(s, 0L);
         count++;
         counts.put(s, count);
@@ -58,7 +61,7 @@ public class ChainCounter {
         if (isEmpty()) {
             return;
         }
-        System.out.println("Length " + length + ":");
+        System.out.println("\r\nLength " + length + ":");
         showTop();
     }
 
@@ -111,10 +114,30 @@ public class ChainCounter {
             System.out.print(v + ": ");
             for (Map.Entry<String, Long> entry : counts.entrySet()) {
                 if (entry.getValue().equals(v)) {
-                    System.out.print(entry.getKey() + " ");
+                    System.out.print(formatValue(entry.getKey()));
                 }
             }
             System.out.println();
         }
+    }
+
+    private String formatValue(String value) {
+        String pronunciation = Edict.pronunciation(value);
+        String meaning = Edict.meaning(value);
+
+        StringBuilder out = new StringBuilder();
+        out.append(value);
+        if (pronunciation != null) {
+            out.append('[');
+            out.append(pronunciation);
+            out.append(']');
+        }
+
+        if (meaning != null) {
+            out.append(' ');
+            out.append(meaning);
+        }
+
+        return out.toString();
     }
 }

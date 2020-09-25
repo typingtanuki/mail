@@ -16,6 +16,9 @@ public class MailReader {
             System.err.println("Only 1 argument: The folder with the mbox files");
             System.exit(10);
         }
+
+        Edict.init();
+
         CharExtractor extractor = new CharExtractor(12);
         Path root = Paths.get(args[0]);
         try {
