@@ -4,6 +4,7 @@ import java.util.*;
 
 public class ChainCounter {
     private static final double MIN_SUPPORT = 0.1d;
+    private static final long MIN_COUNT = 500L;
 
     private final int length;
     private final Map<String, Long> counts = new LinkedHashMap<>();
@@ -82,12 +83,10 @@ public class ChainCounter {
             return;
         }
 
-        long boing = 500;
-
         Set<Map.Entry<String, Long>> entries = new LinkedHashSet<>(counts.entrySet());
         for (Map.Entry<String, Long> entry : entries) {
             long val = entry.getValue();
-            if (val < boing) {
+            if (val < MIN_COUNT) {
                 counts.remove(entry.getKey());
             }
         }
